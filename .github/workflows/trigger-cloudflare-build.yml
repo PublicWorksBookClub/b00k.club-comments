@@ -1,0 +1,17 @@
+name: Trigger Cloudflare Pages Build
+
+# Trigger only on PR merge (merge commits to main/master)
+on:
+  push:
+    branches:
+      - main  # or master
+
+jobs:
+  trigger-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages build
+        run: |
+          echo "Triggering Cloudflare Pages build..."
+          curl -X POST "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/pages/projects/${{ secrets.CF_PROJECT_NAME }}/deployments" \
+            -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}"
